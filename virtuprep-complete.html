@@ -1,0 +1,2121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirtuPrep - Master Your Soft Skills in VR</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        /* Page Management */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem 0;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 2rem 0;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 3rem;
+            border-radius: 25px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .back-btn, .nav-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .back-btn:hover, .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #3b82f6, #8b5cf6);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .feature-description {
+            opacity: 0.9;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .spec-tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .try-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+        
+        .try-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+        
+        /* VR Environment Styles */
+        .vr-environment {
+            width: 100%;
+            height: 70vh;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .environment-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .stage-area {
+            width: 80%;
+            height: 60%;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .podium {
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .podium::after {
+            content: '🎤';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+        }
+        
+        .audience-section {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 8px;
+            width: 90%;
+            margin-top: 2rem;
+        }
+        
+        .audience-member {
+            width: 30px;
+            height: 40px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            transition: all 0.5s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .audience-member.positive {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            animation: applaud 2s infinite;
+        }
+        
+        .audience-member.neutral {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            animation: subtle-move 3s infinite;
+        }
+        
+        .audience-member.negative {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            animation: fidget 1.5s infinite;
+        }
+        
+        .audience-member.clapping {
+            animation: clap 0.5s infinite;
+        }
+        
+        @keyframes applaud {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.1) rotate(-2deg); }
+            75% { transform: scale(1.1) rotate(2deg); }
+        }
+        
+        @keyframes subtle-move {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        @keyframes fidget {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-1deg); }
+            75% { transform: rotate(1deg); }
+        }
+        
+        @keyframes clap {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        /* Meeting Room Environment */
+        .meeting-room {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+        
+        .conference-table {
+            width: 300px;
+            height: 150px;
+            background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+            border-radius: 75px;
+            margin: 2rem auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .team-avatars {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            position: absolute;
+            top: -20px;
+            left: 0;
+            right: 0;
+            bottom: -20px;
+        }
+        
+        .avatar {
+            width: 50px;
+            height: 60px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .avatar.speaking {
+            animation: speaking 1s infinite;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.6);
+        }
+        
+        .avatar.agreeing {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            animation: nod 1s infinite;
+        }
+        
+        .avatar.disagreeing {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            animation: shake 1s infinite;
+        }
+        
+        .avatar.neutral {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+        }
+        
+        @keyframes speaking {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes nod {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0px); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+        
+        /* Analytics Dashboard */
+        .analytics-overlay {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 350px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 1.5rem;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .metric-item {
+            margin-bottom: 1rem;
+        }
+        
+        .metric-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .metric-value {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .metric-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .metric-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: all 0.5s ease;
+        }
+        
+        .metric-fill.excellent {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .metric-fill.good {
+            background: linear-gradient(90deg, #f59e0b, #d97706);
+        }
+        
+        .metric-fill.needs-work {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+        
+        .live-feedback {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+        
+        /* Control Panel */
+        .control-panel {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+        }
+        
+        .control-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .control-btn.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-color: #3b82f6;
+        }
+        
+        .control-btn.recording {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border-color: #ef4444;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Challenge Modal */
+        .challenge-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+        
+        .challenge-content {
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 600px;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .challenge-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #f59e0b;
+        }
+        
+        .challenge-description {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .challenge-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .challenge-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+        
+        .challenge-option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateX(10px);
+        }
+        
+        .challenge-timer {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+        
+        /* Interactive Tools */
+        .collaboration-tools {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 1rem;
+            z-index: 1000;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tool-btn {
+            display: block;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        .tool-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+        
+        /* Whiteboard */
+        .whiteboard {
+            position: fixed;
+            top: 10%;
+            left: 10%;
+            right: 10%;
+            bottom: 10%;
+            background: white;
+            border-radius: 15px;
+            z-index: 1500;
+            display: none;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+        
+        .whiteboard.active {
+            display: block;
+        }
+        
+        .whiteboard-header {
+            background: #f3f4f6;
+            padding: 1rem;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .whiteboard-canvas {
+            width: 100%;
+            height: calc(100% - 60px);
+            cursor: crosshair;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cta-headline {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .cta-subheading {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 1.5rem 4rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .analytics-overlay {
+                position: relative;
+                width: 100%;
+                margin-bottom: 2rem;
+            }
+            
+            .control-panel {
+                position: relative;
+                transform: none;
+                margin: 2rem auto;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .collaboration-tools {
+                position: relative;
+                transform: none;
+                margin: 2rem auto;
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+            }
+            
+            .tool-btn {
+                margin-bottom: 0;
+            }
+            
+            .cta-headline {
+                font-size: 2rem;
+            }
+            
+            .logo {
+                font-size: 2.5rem;
+                padding: 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landing" class="page active">
+            <div class="header">
+                <div class="logo">🎯 VirtuPrep</div>
+                <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Master Your Soft Skills in VR</h1>
+                <p class="tagline">
+                    An interactive, browser-based VR platform for mastering soft skills through immersive 3D environments, 
+                    real-time feedback, and AI-powered coaching.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <!-- Public Speaking -->
+                <div class="feature-card" onclick="startModule('public-speaking')">
+                    <span class="feature-icon">🎤</span>
+                    <h3 class="feature-title">Public Speaking</h3>
+                    <p class="feature-description">
+                        Practice in an immersive auditorium with realistic audience animations, live speech analysis, 
+                        and dynamic crowd reactions to build confidence and presentation skills.
+                    </p>
+                    <div class="feature-specs">
+                        <span class="spec-tag">Audience Animations</span>
+                        <span class="spec-tag">Speech Analysis</span>
+                        <span class="spec-tag">Live Prompts</span>
+                        <span class="spec-tag">Volume Control</span>
+                    </div>
+                    <button class="try-btn">Try Public Speaking</button>
+                </div>
+                
+                <!-- Team Leadership -->
+                <div class="feature-card" onclick="startModule('team-leadership')">
+                    <span class="feature-icon">👥</span>
+                    <h3 class="feature-title">Team Leadership</h3>
+                    <p class="feature-description">
+                        Lead virtual meetings with AI-driven avatars, make decisions through branching dialogues, 
+                        and track your leadership effectiveness in real-time.
+                    </p>
+                    <div class="feature-specs">
+                        <span class="spec-tag">AI Avatars</span>
+                        <span class="spec-tag">Branching Dialogue</span>
+                        <span class="spec-tag">Leadership Scores</span>
+                        <span class="spec-tag">Dynamic Reactions</span>
+                    </div>
+                    <button class="try-btn">Try Team Leadership</button>
+                </div>
+                
+                <!-- Collaboration -->
+                <div class="feature-card" onclick="startModule('collaboration')">
+                    <span class="feature-icon">🤝</span>
+                    <h3 class="feature-title">Collaboration</h3>
+                    <p class="feature-description">
+                        Work with AI teammates using virtual whiteboards, sticky notes, and project dashboards. 
+                        Build consensus and negotiate under time pressure.
+                    </p>
+                    <div class="feature-specs">
+                        <span class="spec-tag">Virtual Whiteboard</span>
+                        <span class="spec-tag">Sticky Notes</span>
+                        <span class="spec-tag">Time Limits</span>
+                        <span class="spec-tag">Consensus Building</span>
+                    </div>
+                    <button class="try-btn">Try Collaboration</button>
+                </div>
+                
+                <!-- Real-time Analytics -->
+                <div class="feature-card" onclick="startModule('analytics')">
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">Real-time Analytics</h3>
+                    <p class="feature-description">
+                        Track speech metrics, filler words, volume, and sentiment with live dashboards, 
+                        color-coded feedback, and detailed improvement reports.
+                    </p>
+                    <div class="feature-specs">
+                        <span class="spec-tag">Speech Metrics</span>
+                        <span class="spec-tag">Live Dashboard</span>
+                        <span class="spec-tag">Color Feedback</span>
+                        <span class="spec-tag">Detailed Reports</span>
+                    </div>
+                    <button class="try-btn">Try Analytics</button>
+                </div>
+                
+                <!-- VR Experience -->
+                <div class="feature-card" onclick="startModule('vr-experience')">
+                    <span class="feature-icon">🥽</span>
+                    <h3 class="feature-title">VR Experience</h3>
+                    <p class="feature-description">
+                        Seamless WebXR integration supporting both desktop and VR headsets with smooth environment 
+                        transitions, immersive audio, and free-look camera control.
+                    </p>
+                    <div class="feature-specs">
+                        <span class="spec-tag">WebXR Support</span>
+                        <span class="spec-tag">Desktop & VR</span>
+                        <span class="spec-tag">Immersive Audio</span>
+                        <span class="spec-tag">Free-look Control</span>
+                    </div>
+                    <button class="try-btn">Try VR Experience</button>
+                </div>
+                
+                <!-- Interactive Challenges -->
+                <div class="feature-card" onclick="startModule('challenges')">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">Interactive Challenges</h3>
+                    <p class="feature-description">
+                        Face unpredictable events like audience questions, technical failures, and team conflicts. 
+                        Make quick decisions and earn achievement badges.
+                    </p>
+                    <div class="feature-specs">
+                        <span class="spec-tag">Unpredictable Events</span>
+                        <span class="spec-tag">Time Pressure</span>
+                        <span class="spec-tag">Dynamic Reactions</span>
+                        <span class="spec-tag">Achievement Badges</span>
+                    </div>
+                    <button class="try-btn">Try Challenges</button>
+                </div>
+            </div>
+            
+            <!-- Call-to-Action Section -->
+            <div class="cta-section">
+                <h2 class="cta-headline">Ready to Master Your Soft Skills?</h2>
+                <p class="cta-subheading">
+                    Join thousands of professionals who have improved their communication and leadership skills with VirtuPrep.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Public Speaking Module -->
+        <div id="public-speaking" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="showPage('landing')">← Back to Home</button>
+                <h2>🎤 Public Speaking Training</h2>
+                <button class="nav-btn" onclick="toggleVR()">🥽 VR Mode</button>
+            </div>
+            
+            <div class="vr-environment">
+                <div class="environment-content">
+                    <div class="stage-area">
+                        <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Virtual Auditorium</h3>
+                        <div class="podium"></div>
+                        <p style="opacity: 0.8; margin-bottom: 2rem;">Stand behind the podium and begin your presentation</p>
+                    </div>
+                    
+                    <div class="audience-section" id="audience-grid">
+                        <!-- Audience members will be generated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Overlay -->
+            <div class="analytics-overlay">
+                <div class="analytics-header">
+                    <h4>📊 Live Analytics</h4>
+                    <span id="session-timer">00:00</span>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>🗣️ Speech Clarity</span>
+                        <span class="metric-value" id="clarity-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="clarity-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>🔊 Volume Level</span>
+                        <span class="metric-value" id="volume-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="volume-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>⚡ Speaking Pace</span>
+                        <span class="metric-value" id="pace-value">0 WPM</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="pace-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>🎯 Audience Engagement</span>
+                        <span class="metric-value" id="engagement-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="engagement-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="live-feedback" id="live-feedback">
+                    Click "Start Speaking" to begin your presentation and receive real-time feedback.
+                </div>
+            </div>
+            
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <button class="control-btn" id="mic-btn" onclick="toggleMicrophone()">
+                    🎤 Start Speaking
+                </button>
+                <button class="control-btn" onclick="showNotes()">
+                    📝 Notes
+                </button>
+                <button class="control-btn" onclick="showSlides()">
+                    📊 Slides
+                </button>
+                <button class="control-btn" onclick="triggerChallenge()">
+                    ⚡ Challenge
+                </button>
+            </div>
+        </div>
+        
+        <!-- Team Leadership Module -->
+        <div id="team-leadership" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="showPage('landing')">← Back to Home</button>
+                <h2>👥 Team Leadership Training</h2>
+                <button class="nav-btn" onclick="toggleVR()">🥽 VR Mode</button>
+            </div>
+            
+            <div class="vr-environment meeting-room">
+                <div class="environment-content">
+                    <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Virtual Meeting Room</h3>
+                    
+                    <div class="conference-table">
+                        <div class="team-avatars" id="team-avatars">
+                            <!-- Team avatars will be generated by JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <p style="opacity: 0.8;">Lead your team through challenges and decisions</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Leadership Analytics -->
+            <div class="analytics-overlay">
+                <div class="analytics-header">
+                    <h4>👥 Leadership Metrics</h4>
+                    <span id="leadership-timer">00:00</span>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>🎯 Decision Making</span>
+                        <span class="metric-value" id="decision-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="decision-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>🤝 Team Harmony</span>
+                        <span class="metric-value" id="harmony-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="harmony-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>💪 Influence</span>
+                        <span class="metric-value" id="influence-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="influence-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="live-feedback" id="leadership-feedback">
+                    Start a team discussion to see leadership analytics in action.
+                </div>
+            </div>
+            
+            <!-- Leadership Controls -->
+            <div class="control-panel">
+                <button class="control-btn" onclick="startMeeting()">
+                    🚀 Start Meeting
+                </button>
+                <button class="control-btn" onclick="presentDecision()">
+                    🎯 Make Decision
+                </button>
+                <button class="control-btn" onclick="resolveConflict()">
+                    ⚖️ Resolve Conflict
+                </button>
+                <button class="control-btn" onclick="motivateTeam()">
+                    💪 Motivate Team
+                </button>
+            </div>
+        </div>
+        
+        <!-- Collaboration Module -->
+        <div id="collaboration" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="showPage('landing')">← Back to Home</button>
+                <h2>🤝 Collaboration Training</h2>
+                <button class="nav-btn" onclick="toggleVR()">🥽 VR Mode</button>
+            </div>
+            
+            <div class="vr-environment">
+                <div class="environment-content">
+                    <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Virtual Workspace</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; width: 80%; margin: 2rem auto;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+                            <h4>Project Dashboard</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Track progress and tasks</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">🖊️</div>
+                            <h4>Virtual Whiteboard</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Brainstorm and sketch ideas</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem;">📝</div>
+                            <h4>Sticky Notes</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Organize thoughts and votes</p>
+                        </div>
+                    </div>
+                    
+                    <div id="collaboration-avatars" style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
+                        <!-- AI teammates will be generated here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Collaboration Tools -->
+            <div class="collaboration-tools">
+                <button class="tool-btn" onclick="openWhiteboard()" title="Whiteboard">🖊️</button>
+                <button class="tool-btn" onclick="addStickyNote()" title="Sticky Note">📝</button>
+                <button class="tool-btn" onclick="showDashboard()" title="Dashboard">📊</button>
+                <button class="tool-btn" onclick="startVote()" title="Vote">🗳️</button>
+            </div>
+            
+            <!-- Collaboration Analytics -->
+            <div class="analytics-overlay">
+                <div class="analytics-header">
+                    <h4>🤝 Collaboration Metrics</h4>
+                    <span id="collab-timer">00:00</span>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>🎯 Consensus Building</span>
+                        <span class="metric-value" id="consensus-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="consensus-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>👂 Active Listening</span>
+                        <span class="metric-value" id="listening-value">0%</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="listening-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="metric-item">
+                    <div class="metric-label">
+                        <span>💡 Idea Contribution</span>
+                        <span class="metric-value" id="ideas-value">0</span>
+                    </div>
+                    <div class="metric-bar">
+                        <div class="metric-fill" id="ideas-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <div class="live-feedback" id="collab-feedback">
+                    Start collaborating with your AI teammates to see metrics in action.
+                </div>
+            </div>
+            
+            <!-- Collaboration Controls -->
+            <div class="control-panel">
+                <button class="control-btn" onclick="startCollaboration()">
+                    🚀 Start Project
+                </button>
+                <button class="control-btn" onclick="shareIdea()">
+                    💡 Share Idea
+                </button>
+                <button class="control-btn" onclick="buildConsensus()">
+                    🤝 Build Consensus
+                </button>
+                <button class="control-btn" onclick="finalizeDecision()">
+                    ✅ Finalize
+                </button>
+            </div>
+        </div>
+        
+        <!-- Virtual Whiteboard -->
+        <div class="whiteboard" id="whiteboard">
+            <div class="whiteboard-header">
+                <h4>🖊️ Virtual Whiteboard</h4>
+                <button onclick="closeWhiteboard()" style="background: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Close</button>
+            </div>
+            <canvas class="whiteboard-canvas" id="whiteboard-canvas"></canvas>
+        </div>
+        
+        <!-- Analytics Module -->
+        <div id="analytics" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="showPage('landing')">← Back to Home</button>
+                <h2>📊 Real-time Analytics Demo</h2>
+                <button class="nav-btn" onclick="toggleVR()">🥽 VR Mode</button>
+            </div>
+            
+            <div class="vr-environment">
+                <div class="environment-content">
+                    <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Analytics Dashboard Demo</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; width: 80%; margin: 2rem auto;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📈</div>
+                            <h4>Live Speech Metrics</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Real-time analysis of your speaking performance</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🎯</div>
+                            <h4>Performance Tracking</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Track improvement over multiple sessions</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">🔍</div>
+                            <h4>Detailed Reports</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Comprehensive analysis with improvement suggestions</p>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; text-align: center;">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">⚡</div>
+                            <h4>Instant Feedback</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Color-coded feedback for immediate improvement</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Controls -->
+            <div class="control-panel">
+                <button class="control-btn" onclick="startAnalyticsDemo()">
+                    📊 Start Analytics
+                </button>
+                <button class="control-btn" onclick="showDetailedReport()">
+                    📋 Detailed Report
+                </button>
+                <button class="control-btn" onclick="exportData()">
+                    💾 Export Data
+                </button>
+                <button class="control-btn" onclick="compareSession()">
+                    📈 Compare Sessions
+                </button>
+            </div>
+        </div>
+        
+        <!-- VR Experience Module -->
+        <div id="vr-experience" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="showPage('landing')">← Back to Home</button>
+                <h2>🥽 VR Experience Demo</h2>
+                <button class="nav-btn" onclick="toggleVR()">🥽 Enter VR</button>
+            </div>
+            
+            <div class="vr-environment">
+                <div class="environment-content">
+                    <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Immersive VR Environments</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; width: 90%; margin: 2rem auto;">
+                        <div class="feature-card" onclick="switchEnvironment('auditorium')" style="padding: 1.5rem; cursor: pointer;">
+                            <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🏛️</span>
+                            <h4>Auditorium</h4>
+                            <p style="opacity: 0.8; font-size: 0.8rem;">Large audience presentation</p>
+                        </div>
+                        <div class="feature-card" onclick="switchEnvironment('meeting')" style="padding: 1.5rem; cursor: pointer;">
+                            <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🏢</span>
+                            <h4>Meeting Room</h4>
+                            <p style="opacity: 0.8; font-size: 0.8rem;">Professional team meetings</p>
+                        </div>
+                        <div class="feature-card" onclick="switchEnvironment('workshop')" style="padding: 1.5rem; cursor: pointer;">
+                            <span style="font-size: 2.5rem; display: block; margin-bottom: 1rem;">🛠️</span>
+                            <h4>Workshop</h4>
+                            <p style="opacity: 0.8; font-size: 0.8rem;">Collaborative workspace</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 3rem; text-align: center;">
+                        <div id="vr-status" style="background: rgba(255,255,255,0.1); padding: 1.5rem; border-radius: 15px; display: inline-block;">
+                            <h4>🥽 VR Status</h4>
+                            <p id="vr-support-status">Checking VR support...</p>
+                            <p style="opacity: 0.8; font-size: 0.9rem; margin-top: 0.5rem;">WebXR compatible headsets supported</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- VR Controls -->
+            <div class="control-panel">
+                <button class="control-btn" onclick="checkVRSupport()">
+                    🔍 Check VR Support
+                </button>
+                <button class="control-btn" onclick="calibrateVR()">
+                    ⚙️ Calibrate VR
+                </button>
+                <button class="control-btn" onclick="toggleImmersiveAudio()">
+                    🔊 Immersive Audio
+                </button>
+                <button class="control-btn" onclick="resetVRView()">
+                    🔄 Reset View
+                </button>
+            </div>
+        </div>
+        
+        <!-- Interactive Challenges Module -->
+        <div id="challenges" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="showPage('landing')">← Back to Home</button>
+                <h2>🎯 Interactive Challenges</h2>
+                <button class="nav-btn" onclick="toggleVR()">🥽 VR Mode</button>
+            </div>
+            
+            <div class="vr-environment">
+                <div class="environment-content">
+                    <h3 style="margin-bottom: 2rem; font-size: 1.5rem;">Challenge Training Arena</h3>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; width: 80%; margin: 2rem auto;">
+                        <div class="feature-card" onclick="startChallengeType('unexpected')" style="padding: 2rem; cursor: pointer;">
+                            <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">⚡</span>
+                            <h4>Unexpected Events</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Handle surprise situations and interruptions</p>
+                            <div style="margin-top: 1rem;">
+                                <span class="spec-tag">Audience Questions</span>
+                                <span class="spec-tag">Technical Issues</span>
+                            </div>
+                        </div>
+                        <div class="feature-card" onclick="startChallengeType('pressure')" style="padding: 2rem; cursor: pointer;">
+                            <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">⏰</span>
+                            <h4>Time Pressure</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Make quick decisions under tight deadlines</p>
+                            <div style="margin-top: 1rem;">
+                                <span class="spec-tag">Quick Decisions</span>
+                                <span class="spec-tag">Rapid Response</span>
+                            </div>
+                        </div>
+                        <div class="feature-card" onclick="startChallengeType('conflict')" style="padding: 2rem; cursor: pointer;">
+                            <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">⚖️</span>
+                            <h4>Conflict Resolution</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Navigate disagreements and find solutions</p>
+                            <div style="margin-top: 1rem;">
+                                <span class="spec-tag">Team Disputes</span>
+                                <span class="spec-tag">Negotiation</span>
+                            </div>
+                        </div>
+                        <div class="feature-card" onclick="startChallengeType('adaptive')" style="padding: 2rem; cursor: pointer;">
+                            <span style="font-size: 3rem; display: block; margin-bottom: 1rem;">🎭</span>
+                            <h4>Adaptive Scenarios</h4>
+                            <p style="opacity: 0.8; font-size: 0.9rem;">Dynamic situations that change based on your responses</p>
+                            <div style="margin-top: 1rem;">
+                                <span class="spec-tag">AI Reactions</span>
+                                <span class="spec-tag">Dynamic Events</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="challenge-arena" style="margin-top: 2rem; text-align: center;">
+                        <div style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 15px; display: inline-block;">
+                            <h4>🏆 Challenge Progress</h4>
+                            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: bold;" id="challenges-completed">0</div>
+                                    <div style="font-size: 0.8rem; opacity: 0.8;">Completed</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: bold;" id="success-rate">0%</div>
+                                    <div style="font-size: 0.8rem; opacity: 0.8;">Success Rate</div>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div style="font-size: 1.5rem; font-weight: bold;" id="badges-earned">0</div>
+                                    <div style="font-size: 0.8rem; opacity: 0.8;">Badges</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Challenge Controls -->
+            <div class="control-panel">
+                <button class="control-btn" onclick="startRandomChallenge()">
+                    🎲 Random Challenge
+                </button>
+                <button class="control-btn" onclick="startChallengeSequence()">
+                    📚 Challenge Series
+                </button>
+                <button class="control-btn" onclick="customChallenge()">
+                    ⚙️ Custom Challenge
+                </button>
+                <button class="control-btn" onclick="viewBadges()">
+                    🏆 View Badges
+                </button>
+            </div>
+        </div>
+        
+        <!-- Challenge Modal -->
+        <div class="challenge-modal" id="challenge-modal" style="display: none;">
+            <div class="challenge-content">
+                <h3 class="challenge-title" id="challenge-title">⚡ Unexpected Challenge!</h3>
+                <p class="challenge-description" id="challenge-description">
+                    A challenging situation has occurred. How do you respond?
+                </p>
+                <div class="challenge-timer" id="challenge-timer">30</div>
+                <div class="challenge-options" id="challenge-options">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Global Variables
+        let currentModule = '';
+        let isRecording = false;
+        let sessionStartTime = 0;
+        let sessionTimer = null;
+        let metricsInterval = null;
+        let challengeTimer = null;
+        let speechRecognition = null;
+        let audioContext = null;
+        let microphone = null;
+        let analyser = null;
+        let vrSupported = false;
+        let vrSession = null;
+        
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+        
+        function initializeApp() {
+            // Check for WebXR support
+            if (navigator.xr) {
+                navigator.xr.isSessionSupported('immersive-vr').then((supported) => {
+                    vrSupported = supported;
+                    console.log('VR Support:', supported);
+                });
+            }
+            
+            // Initialize speech recognition
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                speechRecognition = new SpeechRecognition();
+                speechRecognition.continuous = true;
+                speechRecognition.interimResults = true;
+                speechRecognition.lang = 'en-US';
+            }
+            
+            // Initialize audio context for volume analysis
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        microphone = audioContext.createMediaStreamSource(stream);
+                        analyser = audioContext.createAnalyser();
+                        microphone.connect(analyser);
+                        analyser.fftSize = 256;
+                    })
+                    .catch(err => console.log('Microphone access denied:', err));
+            }
+        }
+        
+        // Page Navigation
+        function showPage(pageId) {
+            console.log('Showing page:', pageId);
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the requested page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                currentModule = pageId;
+                
+                // Initialize module-specific content
+                if (pageId === 'public-speaking') {
+                    initializeAudience();
+                } else if (pageId === 'team-leadership') {
+                    initializeTeamAvatars();
+                } else if (pageId === 'collaboration') {
+                    initializeCollaborationAvatars();
+                }
+                
+                console.log('Successfully showed page:', pageId);
+            } else {
+                console.error('Page not found:', pageId);
+                alert('Module not found: ' + pageId + '. Please try another module.');
+            }
+        }
+        
+        function startModule(moduleId) {
+            console.log('Starting module:', moduleId);
+            // Directly show the module page without any popups
+            showPage(moduleId);
+        }
+        
+        function startFullDemo() {
+            console.log('Starting full demo');
+            // Start with the public speaking module as the main demo
+            showPage('public-speaking');
+        }
+        
+        // Public Speaking Functions
+        function initializeAudience() {
+            const audienceGrid = document.getElementById('audience-grid');
+            audienceGrid.innerHTML = '';
+            
+            for (let i = 0; i < 32; i++) {
+                const member = document.createElement('div');
+                member.className = 'audience-member neutral';
+                member.onclick = () => toggleAudienceMember(member);
+                audienceGrid.appendChild(member);
+            }
+        }
+        
+        function toggleAudienceMember(member) {
+            const states = ['positive', 'neutral', 'negative'];
+            const currentState = member.className.split(' ')[1];
+            const currentIndex = states.indexOf(currentState);
+            const nextIndex = (currentIndex + 1) % states.length;
+            member.className = `audience-member ${states[nextIndex]}`;
+        }
+        
+        function toggleMicrophone() {
+            const micBtn = document.getElementById('mic-btn');
+            
+            if (!isRecording) {
+                startRecording();
+                micBtn.textContent = '🔴 Stop Speaking';
+                micBtn.classList.add('recording');
+            } else {
+                stopRecording();
+                micBtn.textContent = '🎤 Start Speaking';
+                micBtn.classList.remove('recording');
+            }
+        }
+        
+        function startRecording() {
+            isRecording = true;
+            sessionStartTime = Date.now();
+            
+            // Start session timer
+            sessionTimer = setInterval(updateSessionTimer, 1000);
+            
+            // Start metrics updates
+            metricsInterval = setInterval(updateMetrics, 1000);
+            
+            // Start speech recognition
+            if (speechRecognition) {
+                speechRecognition.start();
+                speechRecognition.onresult = handleSpeechResult;
+            }
+            
+            // Schedule random challenges
+            setTimeout(triggerRandomChallenge, Math.random() * 30000 + 15000);
+        }
+        
+        function stopRecording() {
+            isRecording = false;
+            
+            if (sessionTimer) {
+                clearInterval(sessionTimer);
+                sessionTimer = null;
+            }
+            
+            if (metricsInterval) {
+                clearInterval(metricsInterval);
+                metricsInterval = null;
+            }
+            
+            if (speechRecognition) {
+                speechRecognition.stop();
+            }
+        }
+        
+        function updateSessionTimer() {
+            const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            const timeStr = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            const timers = ['session-timer', 'leadership-timer', 'collab-timer'];
+            timers.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = timeStr;
+            });
+        }
+        
+        function updateMetrics() {
+            if (!isRecording) return;
+            
+            const elapsed = (Date.now() - sessionStartTime) / 1000;
+            const improvement = Math.min(elapsed / 60, 1); // Improve over 1 minute
+            
+            // Simulate realistic metrics with gradual improvement
+            const clarity = Math.min(50 + Math.random() * 30 + improvement * 25, 95);
+            const volume = Math.min(40 + Math.random() * 40 + improvement * 20, 90);
+            const pace = Math.min(100 + Math.random() * 50 + improvement * 30, 180);
+            const engagement = Math.min(45 + Math.random() * 35 + improvement * 25, 88);
+            
+            // Update Public Speaking metrics
+            updateMetric('clarity', clarity);
+            updateMetric('volume', volume);
+            updateMetric('pace', pace, 'WPM');
+            updateMetric('engagement', engagement);
+            
+            // Update Leadership metrics
+            updateMetric('decision', Math.min(60 + Math.random() * 25 + improvement * 20, 85));
+            updateMetric('harmony', Math.min(55 + Math.random() * 30 + improvement * 25, 90));
+            updateMetric('influence', Math.min(50 + Math.random() * 35 + improvement * 20, 88));
+            
+            // Update Collaboration metrics
+            updateMetric('consensus', Math.min(45 + Math.random() * 40 + improvement * 25, 85));
+            updateMetric('listening', Math.min(60 + Math.random() * 25 + improvement * 20, 90));
+            updateMetric('ideas', Math.floor(Math.random() * 5 + improvement * 3), '');
+            
+            // Update audience reactions
+            updateAudienceReactions(engagement);
+            
+            // Update live feedback
+            updateLiveFeedback(clarity, volume, engagement);
+        }
+        
+        function updateMetric(metricName, value, suffix = '%') {
+            const valueElement = document.getElementById(`${metricName}-value`);
+            const fillElement = document.getElementById(`${metricName}-fill`);
+            
+            if (valueElement && fillElement) {
+                const displayValue = suffix === 'WPM' ? Math.round(value) : Math.round(value);
+                valueElement.textContent = `${displayValue}${suffix}`;
+                
+                const percentage = suffix === 'WPM' ? Math.min(value / 180 * 100, 100) : 
+                                 suffix === '' ? Math.min(value / 10 * 100, 100) : value;
+                fillElement.style.width = `${percentage}%`;
+                
+                // Update fill color based on performance
+                fillElement.className = 'metric-fill ' + getMetricClass(percentage);
+            }
+        }
+        
+        function getMetricClass(percentage) {
+            if (percentage >= 75) return 'excellent';
+            if (percentage >= 50) return 'good';
+            return 'needs-work';
+        }
+        
+        function updateAudienceReactions(engagement) {
+            const audienceMembers = document.querySelectorAll('.audience-member');
+            audienceMembers.forEach(member => {
+                const random = Math.random() * 100;
+                if (engagement > 70 && random < 30) {
+                    member.className = 'audience-member positive';
+                } else if (engagement < 40 && random < 20) {
+                    member.className = 'audience-member negative';
+                } else if (random < 10) {
+                    member.className = 'audience-member neutral';
+                }
+            });
+        }
+        
+        function updateLiveFeedback(clarity, volume, engagement) {
+            const feedbacks = ['live-feedback', 'leadership-feedback', 'collab-feedback'];
+            let message = '';
+            
+            if (clarity < 60) {
+                message = '🗣️ Speak more clearly and articulate your words better.';
+            } else if (volume < 50) {
+                message = '🔊 Project your voice more - the audience needs to hear you clearly.';
+            } else if (engagement < 50) {
+                message = '👥 Try to engage more with your audience - make eye contact and vary your tone.';
+            } else if (engagement > 80) {
+                message = '🌟 Excellent! Your audience is highly engaged. Keep up the great work!';
+            } else {
+                message = '👍 Good performance! Continue building momentum with your presentation.';
+            }
+            
+            feedbacks.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) element.textContent = message;
+            });
+        }
+        
+        // Team Leadership Functions
+        function initializeTeamAvatars() {
+            const avatarsContainer = document.getElementById('team-avatars');
+            avatarsContainer.innerHTML = '';
+            
+            const avatarTypes = ['agreeing', 'neutral', 'disagreeing', 'neutral', 'agreeing'];
+            avatarTypes.forEach((type, index) => {
+                const avatar = document.createElement('div');
+                avatar.className = `avatar ${type}`;
+                avatar.onclick = () => interactWithAvatar(avatar, index);
+                avatarsContainer.appendChild(avatar);
+            });
+        }
+        
+        function interactWithAvatar(avatar, index) {
+            const states = ['agreeing', 'neutral', 'disagreeing', 'speaking'];
+            const currentState = avatar.className.split(' ')[1];
+            const currentIndex = states.indexOf(currentState);
+            const nextIndex = (currentIndex + 1) % states.length;
+            avatar.className = `avatar ${states[nextIndex]}`;
+        }
+        
+        function startMeeting() {
+            if (!isRecording) {
+                startRecording();
+            }
+            showMessage('Meeting started! Begin by setting the agenda and goals.');
+        }
+        
+        function presentDecision() {
+            showMessage('Present your decision clearly and explain the reasoning behind it.');
+            triggerChallenge('decision');
+        }
+        
+        function resolveConflict() {
+            showMessage('Address the conflict diplomatically and find common ground.');
+            triggerChallenge('conflict');
+        }
+        
+        function motivateTeam() {
+            showMessage('Inspire your team with positive reinforcement and clear vision.');
+            triggerChallenge('motivation');
+        }
+        
+        // Collaboration Functions
+        function initializeCollaborationAvatars() {
+            const avatarsContainer = document.getElementById('collaboration-avatars');
+            avatarsContainer.innerHTML = '';
+            
+            const teammates = [
+                { name: 'Alex', role: 'Designer', mood: 'positive' },
+                { name: 'Sam', role: 'Developer', mood: 'neutral' },
+                { name: 'Jordan', role: 'Manager', mood: 'positive' }
+            ];
+            
+            teammates.forEach((teammate, index) => {
+                const avatarDiv = document.createElement('div');
+                avatarDiv.style.textAlign = 'center';
+                avatarDiv.innerHTML = `
+                    <div class="avatar ${teammate.mood}" onclick="talkToTeammate(${index})" style="margin-bottom: 0.5rem;"></div>
+                    <div style="font-size: 0.8rem; opacity: 0.8;">${teammate.name}</div>
+                    <div style="font-size: 0.7rem; opacity: 0.6;">${teammate.role}</div>
+                `;
+                avatarsContainer.appendChild(avatarDiv);
+            });
+        }
+        
+        function talkToTeammate(index) {
+            const teammates = ['Alex', 'Sam', 'Jordan'];
+            const messages = [
+                'Alex: "I think we should focus on user experience first."',
+                'Sam: "The technical implementation might be challenging."',
+                'Jordan: "We need to consider the timeline and resources."'
+            ];
+            showMessage(messages[index]);
+        }
+        
+        function startCollaboration() {
+            if (!isRecording) {
+                startRecording();
+            }
+            showMessage('Collaboration session started! Share your ideas with the team.');
+        }
+        
+        function shareIdea() {
+            showMessage('Great idea! The team is considering your proposal.');
+            updateMetric('ideas', Math.floor(Math.random() * 3) + 1, '');
+        }
+        
+        function buildConsensus() {
+            showMessage('Working on building team consensus. Listen to all perspectives.');
+            triggerChallenge('consensus');
+        }
+        
+        function finalizeDecision() {
+            showMessage('Decision finalized! The team is aligned and ready to proceed.');
+        }
+        
+        // Interactive Tools
+        function openWhiteboard() {
+            document.getElementById('whiteboard').classList.add('active');
+            initializeWhiteboard();
+        }
+        
+        function closeWhiteboard() {
+            document.getElementById('whiteboard').classList.remove('active');
+        }
+        
+        function initializeWhiteboard() {
+            const canvas = document.getElementById('whiteboard-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            let isDrawing = false;
+            
+            canvas.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(e.offsetX, e.offsetY);
+            });
+            
+            canvas.addEventListener('mousemove', (e) => {
+                if (isDrawing) {
+                    ctx.lineTo(e.offsetX, e.offsetY);
+                    ctx.stroke();
+                }
+            });
+            
+            canvas.addEventListener('mouseup', () => {
+                isDrawing = false;
+            });
+            
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+        }
+        
+        function addStickyNote() {
+            showMessage('Sticky note added to the collaboration board!');
+        }
+        
+        function showDashboard() {
+            showMessage('Project dashboard opened - tracking progress and milestones.');
+        }
+        
+        function startVote() {
+            showMessage('Team voting initiated. Collecting input from all members.');
+        }
+        
+        // Challenge System
+        function triggerChallenge(type = 'random') {
+            const challenges = {
+                random: [
+                    {
+                        title: '⚡ Unexpected Question!',
+                        description: 'An audience member asks: "Can you provide more specific data to support your main point?"',
+                        options: [
+                            'Acknowledge and provide additional details',
+                            'Redirect to Q&A session at the end',
+                            'Ask the audience for their thoughts first'
+                        ]
+                    },
+                    {
+                        title: '🔧 Technical Difficulty!',
+                        description: 'The microphone stops working during your presentation. What do you do?',
+                        options: [
+                            'Continue speaking louder without the mic',
+                            'Pause and wait for technical support',
+                            'Move closer to the audience and continue'
+                        ]
+                    }
+                ],
+                decision: [
+                    {
+                        title: '🎯 Critical Decision!',
+                        description: 'The team is split 50/50 on the project direction. You need to make the final call.',
+                        options: [
+                            'Choose the safer, proven approach',
+                            'Go with the innovative but risky option',
+                            'Propose a hybrid solution combining both'
+                        ]
+                    }
+                ],
+                conflict: [
+                    {
+                        title: '⚖️ Team Conflict!',
+                        description: 'Two team members are arguing about resource allocation and blame each other.',
+                        options: [
+                            'Address each person individually first',
+                            'Facilitate a group discussion immediately',
+                            'Postpone the decision until emotions cool down'
+                        ]
+                    }
+                ],
+                motivation: [
+                    {
+                        title: '💪 Team Morale Challenge!',
+                        description: 'The team seems demotivated after a recent setback. How do you re-energize them?',
+                        options: [
+                            'Focus on past successes and achievements',
+                            'Set smaller, achievable short-term goals',
+                            'Bring in external recognition or rewards'
+                        ]
+                    }
+                ],
+                consensus: [
+                    {
+                        title: '🤝 Consensus Challenge!',
+                        description: 'The team has three different approaches and everyone is convinced theirs is best.',
+                        options: [
+                            'Create a pros/cons analysis together',
+                            'Test all approaches with small pilots',
+                            'Vote and go with the majority decision'
+                        ]
+                    }
+                ]
+            };
+            
+            const challengeSet = challenges[type] || challenges.random;
+            const challenge = challengeSet[Math.floor(Math.random() * challengeSet.length)];
+            
+            showChallengeModal(challenge);
+        }
+        
+        function showChallengeModal(challenge) {
+            const modal = document.getElementById('challenge-modal');
+            const title = document.getElementById('challenge-title');
+            const description = document.getElementById('challenge-description');
+            const options = document.getElementById('challenge-options');
+            const timer = document.getElementById('challenge-timer');
+            
+            title.textContent = challenge.title;
+            description.textContent = challenge.description;
+            
+            options.innerHTML = '';
+            challenge.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'challenge-option';
+                button.textContent = option;
+                button.onclick = () => selectChallengeOption(index, option);
+                options.appendChild(button);
+            });
+            
+            modal.style.display = 'flex';
+            
+            // Start countdown timer
+            let timeLeft = 30;
+            timer.textContent = timeLeft;
+            
+            challengeTimer = setInterval(() => {
+                timeLeft--;
+                timer.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(challengeTimer);
+                    selectChallengeOption(-1, 'Time expired');
+                }
+            }, 1000);
+        }
+        
+        function selectChallengeOption(index, option) {
+            clearInterval(challengeTimer);
+            document.getElementById('challenge-modal').style.display = 'none';
+            
+            const responses = [
+                'Excellent choice! Your quick thinking shows strong leadership.',
+                'Good decision! You handled that challenge professionally.',
+                'Interesting approach! That shows creative problem-solving.',
+                'Time management is key! Consider preparing for such situations.'
+            ];
+            
+            const response = index >= 0 ? responses[Math.min(index, 2)] : responses[3];
+            showMessage(response);
+            
+            // Award points or badges
+            if (index >= 0) {
+                showAchievement('Challenge Completed! +10 Leadership Points');
+            }
+        }
+        
+        function triggerRandomChallenge() {
+            if (isRecording) {
+                triggerChallenge('random');
+                // Schedule next random challenge
+                setTimeout(triggerRandomChallenge, Math.random() * 45000 + 30000);
+            }
+        }
+        
+        // Utility Functions
+        function showMessage(message) {
+            // Create a temporary message overlay
+            const messageDiv = document.createElement('div');
+            messageDiv.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 3000;
+                font-size: 1.1rem;
+                text-align: center;
+                max-width: 400px;
+                backdrop-filter: blur(10px);
+            `;
+            messageDiv.textContent = message;
+            document.body.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                document.body.removeChild(messageDiv);
+            }, 3000);
+        }
+        
+        function showAchievement(achievement) {
+            const achievementDiv = document.createElement('div');
+            achievementDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #10b981, #059669);
+                color: white;
+                padding: 1rem;
+                border-radius: 10px;
+                z-index: 3000;
+                font-weight: bold;
+                animation: slideIn 0.5s ease;
+            `;
+            achievementDiv.innerHTML = `🏆 ${achievement}`;
+            document.body.appendChild(achievementDiv);
+            
+            setTimeout(() => {
+                document.body.removeChild(achievementDiv);
+            }, 4000);
+        }
+        
+        function showNotes() {
+            showMessage('📝 Notes panel opened. You can add presentation notes here.');
+        }
+        
+        function showSlides() {
+            showMessage('📊 Slide preview available. Navigate through your presentation slides.');
+        }
+        
+        function toggleVR() {
+            if (!vrSupported) {
+                showMessage('🥽 VR not supported on this device. Continuing in desktop mode.');
+                return;
+            }
+            
+            if (!vrSession) {
+                navigator.xr.requestSession('immersive-vr').then(session => {
+                    vrSession = session;
+                    showMessage('🥽 VR Mode activated! Put on your headset.');
+                }).catch(err => {
+                    showMessage('🥽 Could not start VR session. Check your headset connection.');
+                });
+            } else {
+                vrSession.end();
+                vrSession = null;
+                showMessage('🥽 VR Mode deactivated. Returning to desktop mode.');
+            }
+        }
+        
+        function handleSpeechResult(event) {
+            // Process speech recognition results for analysis
+            const results = event.results;
+            const latest = results[results.length - 1];
+            
+            if (latest.isFinal) {
+                const transcript = latest[0].transcript;
+                analyzeSpeech(transcript);
+            }
+        }
+        
+        function analyzeSpeech(transcript) {
+            // Simple speech analysis
+            const words = transcript.split(' ').length;
+            const fillerWords = (transcript.match(/\b(um|uh|like|you know)\b/gi) || []).length;
+            const clarity = Math.max(0, 100 - (fillerWords / words * 100));
+            
+            // Update metrics based on speech analysis
+            updateMetric('clarity', clarity);
+        }
+        
+        // Analytics Module Functions
+        function startAnalyticsDemo() {
+            if (!isRecording) {
+                startRecording();
+            }
+            showMessage('📊 Analytics demo started! Speak to see real-time metrics.');
+        }
+        
+        function showDetailedReport() {
+            showMessage('📋 Detailed performance report generated with improvement suggestions.');
+        }
+        
+        function exportData() {
+            showMessage('💾 Session data exported successfully! Check your downloads folder.');
+        }
+        
+        function compareSession() {
+            showMessage('📈 Comparing with previous sessions to track your improvement.');
+        }
+        
+        // VR Experience Functions
+        function switchEnvironment(env) {
+            const environments = {
+                auditorium: 'Switched to Auditorium - Perfect for large presentations!',
+                meeting: 'Switched to Meeting Room - Ideal for team discussions!',
+                workshop: 'Switched to Workshop - Great for collaborative work!'
+            };
+            showMessage(environments[env] || 'Environment switched successfully!');
+        }
+        
+        function checkVRSupport() {
+            const statusElement = document.getElementById('vr-support-status');
+            if (vrSupported) {
+                statusElement.textContent = '✅ VR Supported! WebXR ready.';
+                statusElement.style.color = '#10b981';
+            } else {
+                statusElement.textContent = '❌ VR not supported on this device.';
+                statusElement.style.color = '#ef4444';
+            }
+        }
+        
+        function calibrateVR() {
+            showMessage('⚙️ VR calibration started. Follow the on-screen instructions.');
+        }
+        
+        function toggleImmersiveAudio() {
+            showMessage('🔊 Immersive audio toggled. Experience 3D spatial sound!');
+        }
+        
+        function resetVRView() {
+            showMessage('🔄 VR view reset to default position and orientation.');
+        }
+        
+        // Challenge Module Functions
+        function startChallengeType(type) {
+            const challenges = {
+                unexpected: 'Starting unexpected event challenges! Be ready for surprises.',
+                pressure: 'Time pressure challenges activated! Quick thinking required.',
+                conflict: 'Conflict resolution scenarios loaded! Diplomacy is key.',
+                adaptive: 'Adaptive challenges initiated! Your choices shape the experience.'
+            };
+            showMessage(challenges[type] || 'Challenge type selected!');
+            
+            // Start the specific challenge type
+            setTimeout(() => {
+                triggerChallenge(type);
+            }, 2000);
+        }
+        
+        function startRandomChallenge() {
+            showMessage('🎲 Random challenge incoming in 3 seconds!');
+            setTimeout(() => {
+                triggerChallenge('random');
+            }, 3000);
+        }
+        
+        function startChallengeSequence() {
+            showMessage('📚 Challenge series started! Complete all challenges to earn badges.');
+            // Start a sequence of challenges
+            let challengeCount = 0;
+            const maxChallenges = 3;
+            
+            function nextChallenge() {
+                if (challengeCount < maxChallenges) {
+                    challengeCount++;
+                    setTimeout(() => {
+                        triggerChallenge('random');
+                        if (challengeCount < maxChallenges) {
+                            setTimeout(nextChallenge, 10000);
+                        }
+                    }, 5000);
+                }
+            }
+            nextChallenge();
+        }
+        
+        function customChallenge() {
+            showMessage('⚙️ Custom challenge builder opened! Create your own scenarios.');
+        }
+        
+        function viewBadges() {
+            showMessage('🏆 Badge collection opened! You have earned: Quick Thinker, Problem Solver, Team Player.');
+        }
+    </script>
+</body>
+</html>

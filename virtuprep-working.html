@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirtuPrep - Soft Skills VR Trainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 3rem;
+            border-radius: 25px;
+            display: inline-block;
+            backdrop-filter: blur(10px);
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+        
+        .feature-description {
+            opacity: 0.9;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .module-content {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .module-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .module-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+        
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+        
+        .cta-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 4rem 2rem;
+            margin: 4rem 0;
+        }
+        
+        .cta-headline {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subheading {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            padding: 1.5rem 4rem;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .cta-headline {
+                font-size: 2rem;
+            }
+            .logo {
+                font-size: 2.5rem;
+                padding: 1rem 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Landing Page -->
+        <div id="landing" class="page active">
+            <div class="header">
+                <div class="logo">🎯 VirtuPrep</div>
+                <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Master Your Soft Skills in VR</h1>
+                <p class="tagline">
+                    An interactive, browser-based VR platform for mastering soft skills through immersive 3D environments, 
+                    real-time feedback, and AI-powered coaching.
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" onclick="goToModule('public-speaking')">
+                    <span class="feature-icon">🎤</span>
+                    <h3 class="feature-title">Public Speaking</h3>
+                    <p class="feature-description">
+                        Practice in an immersive auditorium with realistic audience animations, live speech analysis, 
+                        and dynamic crowd reactions to build confidence and presentation skills.
+                    </p>
+                </div>
+                
+                <div class="feature-card" onclick="goToModule('team-leadership')">
+                    <span class="feature-icon">👥</span>
+                    <h3 class="feature-title">Team Leadership</h3>
+                    <p class="feature-description">
+                        Lead virtual meetings with AI-driven avatars, make decisions through branching dialogues, 
+                        and track your leadership effectiveness in real-time.
+                    </p>
+                </div>
+                
+                <div class="feature-card" onclick="goToModule('collaboration')">
+                    <span class="feature-icon">🤝</span>
+                    <h3 class="feature-title">Collaboration</h3>
+                    <p class="feature-description">
+                        Work with AI teammates using virtual whiteboards, sticky notes, and project dashboards. 
+                        Build consensus and negotiate under time pressure.
+                    </p>
+                </div>
+                
+                <div class="feature-card" onclick="goToModule('analytics')">
+                    <span class="feature-icon">📊</span>
+                    <h3 class="feature-title">Real-time Analytics</h3>
+                    <p class="feature-description">
+                        Track speech metrics, filler words, volume, and sentiment with live dashboards, 
+                        color-coded feedback, and detailed improvement reports.
+                    </p>
+                </div>
+                
+                <div class="feature-card" onclick="goToModule('vr-experience')">
+                    <span class="feature-icon">🥽</span>
+                    <h3 class="feature-title">VR Experience</h3>
+                    <p class="feature-description">
+                        Seamless WebXR integration supporting both desktop and VR headsets with smooth environment 
+                        transitions, immersive audio, and free-look camera control.
+                    </p>
+                </div>
+                
+                <div class="feature-card" onclick="goToModule('challenges')">
+                    <span class="feature-icon">🎯</span>
+                    <h3 class="feature-title">Interactive Challenges</h3>
+                    <p class="feature-description">
+                        Face unpredictable events like audience questions, technical failures, and team conflicts. 
+                        Make quick decisions and earn achievement badges.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="cta-section">
+                <h2 class="cta-headline">Ready to Master Your Soft Skills?</h2>
+                <p class="cta-subheading">
+                    Join thousands of professionals who have improved their communication and leadership skills with VirtuPrep.
+                </p>
+                <button class="cta-button" onclick="goToModule('public-speaking')">Start Your VR Training Journey</button>
+            </div>
+        </div>
+        
+        <!-- Public Speaking Module -->
+        <div id="public-speaking" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goToModule('landing')">← Back to Home</button>
+                <h2>🎤 Public Speaking Training</h2>
+            </div>
+            
+            <div class="module-content">
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">🏛️ Virtual Auditorium</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Welcome to your immersive public speaking training environment!
+                </p>
+                
+                <div class="module-features">
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">👥</div>
+                        <h4>Realistic Audience</h4>
+                        <p>Interactive audience members with dynamic reactions</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📊</div>
+                        <h4>Live Analytics</h4>
+                        <p>Real-time speech analysis and feedback</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🎤</div>
+                        <h4>Voice Analysis</h4>
+                        <p>Track clarity, pace, and volume in real-time</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">⚡</div>
+                        <h4>Interactive Challenges</h4>
+                        <p>Handle unexpected questions and situations</p>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startTraining('public-speaking')">🎤 Start Public Speaking Training</button>
+            </div>
+        </div>
+        
+        <!-- Team Leadership Module -->
+        <div id="team-leadership" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goToModule('landing')">← Back to Home</button>
+                <h2>👥 Team Leadership Training</h2>
+            </div>
+            
+            <div class="module-content">
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">🏢 Virtual Meeting Room</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Lead your virtual team through challenging scenarios and decisions!
+                </p>
+                
+                <div class="module-features">
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🤖</div>
+                        <h4>AI Team Members</h4>
+                        <p>Interact with intelligent virtual team members</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🎯</div>
+                        <h4>Decision Making</h4>
+                        <p>Practice making tough leadership decisions</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">⚖️</div>
+                        <h4>Conflict Resolution</h4>
+                        <p>Navigate team disagreements diplomatically</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">💪</div>
+                        <h4>Team Motivation</h4>
+                        <p>Learn to inspire and motivate your team</p>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startTraining('team-leadership')">👥 Start Leadership Training</button>
+            </div>
+        </div>
+        
+        <!-- Collaboration Module -->
+        <div id="collaboration" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goToModule('landing')">← Back to Home</button>
+                <h2>🤝 Collaboration Training</h2>
+            </div>
+            
+            <div class="module-content">
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">🛠️ Virtual Workspace</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Collaborate with AI teammates using interactive tools and build consensus!
+                </p>
+                
+                <div class="module-features">
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🖊️</div>
+                        <h4>Virtual Whiteboard</h4>
+                        <p>Brainstorm and sketch ideas collaboratively</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📝</div>
+                        <h4>Sticky Notes</h4>
+                        <p>Organize thoughts and facilitate voting</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🗳️</div>
+                        <h4>Consensus Building</h4>
+                        <p>Practice building team agreement</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">⏰</div>
+                        <h4>Time Pressure</h4>
+                        <p>Make decisions under tight deadlines</p>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startTraining('collaboration')">🤝 Start Collaboration Training</button>
+            </div>
+        </div>
+        
+        <!-- Analytics Module -->
+        <div id="analytics" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goToModule('landing')">← Back to Home</button>
+                <h2>📊 Real-time Analytics</h2>
+            </div>
+            
+            <div class="module-content">
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">📈 Performance Dashboard</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Track your speaking performance with advanced analytics and insights!
+                </p>
+                
+                <div class="module-features">
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🗣️</div>
+                        <h4>Speech Metrics</h4>
+                        <p>Words per minute, clarity, and volume analysis</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🚫</div>
+                        <h4>Filler Word Detection</h4>
+                        <p>Track and reduce "um", "uh", and other fillers</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">😊</div>
+                        <h4>Sentiment Analysis</h4>
+                        <p>Analyze the emotional tone of your speech</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">📋</div>
+                        <h4>Detailed Reports</h4>
+                        <p>Comprehensive performance reports with tips</p>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startTraining('analytics')">📊 Start Analytics Demo</button>
+            </div>
+        </div>
+        
+        <!-- VR Experience Module -->
+        <div id="vr-experience" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goToModule('landing')">← Back to Home</button>
+                <h2>🥽 VR Experience</h2>
+            </div>
+            
+            <div class="module-content">
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">🌐 Immersive Environments</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Experience cutting-edge VR technology with WebXR support!
+                </p>
+                
+                <div class="module-features">
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🥽</div>
+                        <h4>WebXR Support</h4>
+                        <p>Compatible with VR headsets and desktop browsers</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🏛️</div>
+                        <h4>Multiple Environments</h4>
+                        <p>Auditorium, meeting room, and workshop spaces</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🔊</div>
+                        <h4>Immersive Audio</h4>
+                        <p>3D spatial audio for realistic experiences</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🎮</div>
+                        <h4>Free-look Control</h4>
+                        <p>Natural head tracking and movement</p>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startTraining('vr-experience')">🥽 Experience VR Demo</button>
+            </div>
+        </div>
+        
+        <!-- Challenges Module -->
+        <div id="challenges" class="page">
+            <div class="nav-header">
+                <button class="back-btn" onclick="goToModule('landing')">← Back to Home</button>
+                <h2>🎯 Interactive Challenges</h2>
+            </div>
+            
+            <div class="module-content">
+                <h3 style="font-size: 2rem; margin-bottom: 2rem;">⚡ Challenge Arena</h3>
+                <p style="font-size: 1.2rem; margin-bottom: 2rem;">
+                    Face unexpected situations and test your quick thinking skills!
+                </p>
+                
+                <div class="module-features">
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">❓</div>
+                        <h4>Unexpected Events</h4>
+                        <p>Handle surprise questions and interruptions</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">⏰</div>
+                        <h4>Time Pressure</h4>
+                        <p>Make quick decisions under tight deadlines</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🎭</div>
+                        <h4>Adaptive Scenarios</h4>
+                        <p>Dynamic situations that change based on your responses</p>
+                    </div>
+                    <div class="module-feature">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">🏆</div>
+                        <h4>Achievement System</h4>
+                        <p>Earn badges and track your progress</p>
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startTraining('challenges')">🎯 Start Challenge Training</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function goToModule(moduleId) {
+            console.log('Navigating to module:', moduleId);
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the requested page
+            const targetPage = document.getElementById(moduleId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                console.log('Successfully navigated to:', moduleId);
+                
+                // Scroll to top
+                window.scrollTo(0, 0);
+            } else {
+                console.error('Module not found:', moduleId);
+                alert('Module not found: ' + moduleId);
+            }
+        }
+        
+        function startTraining(moduleId) {
+            const messages = {
+                'public-speaking': '🎤 Public Speaking training started! You are now in the virtual auditorium. Practice your presentation skills with live audience feedback.',
+                'team-leadership': '👥 Team Leadership training started! You are now leading a virtual team meeting. Make decisions and resolve conflicts.',
+                'collaboration': '🤝 Collaboration training started! Work with your AI teammates using the virtual whiteboard and consensus-building tools.',
+                'analytics': '📊 Analytics demo started! Your speech metrics are being tracked in real-time. Speak to see the analytics in action.',
+                'vr-experience': '🥽 VR Experience started! Put on your VR headset for the full immersive experience, or continue in desktop mode.',
+                'challenges': '🎯 Challenge training started! Get ready for unexpected situations that will test your quick thinking and problem-solving skills.'
+            };
+            
+            alert(messages[moduleId] || 'Training started!');
+        }
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('VirtuPrep loaded successfully!');
+        });
+    </script>
+</body>
+</html>

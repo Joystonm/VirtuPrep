@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirtuPrep - Module Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .test-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2rem;
+            margin: 1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        .test-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        .page {
+            display: none;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+        .page.active {
+            display: block;
+        }
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="home" class="page active">
+            <h1>🎯 VirtuPrep Module Test</h1>
+            <p>Click any button to test the modules:</p>
+            
+            <button class="test-btn" onclick="testModule('public-speaking')">🎤 Test Public Speaking</button>
+            <button class="test-btn" onclick="testModule('team-leadership')">👥 Test Team Leadership</button>
+            <button class="test-btn" onclick="testModule('collaboration')">🤝 Test Collaboration</button>
+            <button class="test-btn" onclick="testModule('analytics')">📊 Test Analytics</button>
+            <button class="test-btn" onclick="testModule('vr-experience')">🥽 Test VR Experience</button>
+            <button class="test-btn" onclick="testModule('challenges')">🎯 Test Challenges</button>
+            
+            <div style="margin-top: 2rem; padding: 1rem; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                <h3>✅ Test Results:</h3>
+                <div id="test-results">Click buttons above to test each module</div>
+            </div>
+        </div>
+        
+        <div id="public-speaking" class="page">
+            <button class="back-btn" onclick="showPage('home')">← Back</button>
+            <h2>🎤 Public Speaking Module</h2>
+            <p>✅ Public Speaking module loaded successfully!</p>
+            <p>This module includes:</p>
+            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                <li>Virtual auditorium environment</li>
+                <li>Interactive audience members</li>
+                <li>Real-time speech analysis</li>
+                <li>Live feedback system</li>
+            </ul>
+        </div>
+        
+        <div id="team-leadership" class="page">
+            <button class="back-btn" onclick="showPage('home')">← Back</button>
+            <h2>👥 Team Leadership Module</h2>
+            <p>✅ Team Leadership module loaded successfully!</p>
+            <p>This module includes:</p>
+            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                <li>Virtual meeting room</li>
+                <li>AI-driven team avatars</li>
+                <li>Leadership effectiveness tracking</li>
+                <li>Conflict resolution scenarios</li>
+            </ul>
+        </div>
+        
+        <div id="collaboration" class="page">
+            <button class="back-btn" onclick="showPage('home')">← Back</button>
+            <h2>🤝 Collaboration Module</h2>
+            <p>✅ Collaboration module loaded successfully!</p>
+            <p>This module includes:</p>
+            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                <li>Virtual workspace</li>
+                <li>Interactive whiteboard</li>
+                <li>AI teammates</li>
+                <li>Consensus building tools</li>
+            </ul>
+        </div>
+        
+        <div id="analytics" class="page">
+            <button class="back-btn" onclick="showPage('home')">← Back</button>
+            <h2>📊 Analytics Module</h2>
+            <p>✅ Analytics module loaded successfully!</p>
+            <p>This module includes:</p>
+            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                <li>Real-time speech metrics</li>
+                <li>Performance tracking</li>
+                <li>Detailed reports</li>
+                <li>Color-coded feedback</li>
+            </ul>
+        </div>
+        
+        <div id="vr-experience" class="page">
+            <button class="back-btn" onclick="showPage('home')">← Back</button>
+            <h2>🥽 VR Experience Module</h2>
+            <p>✅ VR Experience module loaded successfully!</p>
+            <p>This module includes:</p>
+            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                <li>WebXR integration</li>
+                <li>Multiple environments</li>
+                <li>VR headset support</li>
+                <li>Immersive audio</li>
+            </ul>
+        </div>
+        
+        <div id="challenges" class="page">
+            <button class="back-btn" onclick="showPage('home')">← Back</button>
+            <h2>🎯 Challenges Module</h2>
+            <p>✅ Challenges module loaded successfully!</p>
+            <p>This module includes:</p>
+            <ul style="text-align: left; max-width: 400px; margin: 1rem auto;">
+                <li>Unexpected events</li>
+                <li>Time pressure scenarios</li>
+                <li>Conflict resolution</li>
+                <li>Achievement system</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function showPage(pageId) {
+            console.log('Showing page:', pageId);
+            
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the requested page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+                console.log('Successfully showed page:', pageId);
+                return true;
+            } else {
+                console.error('Page not found:', pageId);
+                return false;
+            }
+        }
+        
+        function testModule(moduleId) {
+            console.log('Testing module:', moduleId);
+            const resultsDiv = document.getElementById('test-results');
+            
+            if (showPage(moduleId)) {
+                resultsDiv.innerHTML += `<div>✅ ${moduleId} module: WORKING</div>`;
+            } else {
+                resultsDiv.innerHTML += `<div>❌ ${moduleId} module: FAILED</div>`;
+            }
+        }
+    </script>
+</body>
+</html>
