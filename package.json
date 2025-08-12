@@ -32,7 +32,9 @@
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext js,jsx --fix",
     "test": "echo \"Tests will be added in future iterations\"",
-    "start": "vite"
+    "start": "vite",
+    "setup-ai": "node setup-ai.js",
+    "setup": "node setup-ai.js"
   },
   "browserslist": {
     "production": [
