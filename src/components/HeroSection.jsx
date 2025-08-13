@@ -1,13 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="hero-section">
       <div className="hero-container">
         <div className="hero-content">
           <h1 className="hero-title">Master Your Soft Skills</h1>
           <p className="hero-subtitle">
-            Practice public speaking, leadership, and teamwork in immersive VR environments with AI-powered feedback
+            Practice public speaking, leadership, and teamwork in immersive VR environments with AI-powered coaching and comprehensive interview preparation
           </p>
           <div className="hero-features">
             <div className="feature-item">
@@ -19,21 +22,34 @@ const HeroSection = () => {
               <span>Team Leadership</span>
             </div>
             <div className="feature-item">
-              <span className="feature-icon">🤝</span>
-              <span>Collaboration</span>
+              <span className="feature-icon">🎯</span>
+              <span>Interview Prep</span>
             </div>
             <div className="feature-item">
               <span className="feature-icon">📊</span>
               <span>Real-time Analytics</span>
             </div>
           </div>
-          <button className="hero-cta-button">Start Training</button>
+          <div className="hero-cta-buttons">
+            <button 
+              className="hero-cta-button primary"
+              onClick={() => navigate('/scenarios')}
+            >
+              Start VR Training
+            </button>
+            <button 
+              className="hero-cta-button secondary"
+              onClick={() => navigate('/interview-prep')}
+            >
+              🤖 Try Interview Prep
+            </button>
+          </div>
         </div>
         <div className="hero-animation">
           <div className="hero-placeholder">
             <div className="placeholder-content">
-              <h3>🎯 VR Training Environment</h3>
-              <p>3D animation will be added here</p>
+              <h3>🎯 AI-Powered Training</h3>
+              <p>VR Simulations + Interview Coaching</p>
             </div>
           </div>
         </div>

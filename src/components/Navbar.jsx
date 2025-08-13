@@ -1,11 +1,25 @@
 import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { navigationItems } from '../routes';
 
 const Navbar = () => {
+  const location = useLocation();
+
   return (
     <nav className="navbar">
       <div className="nav-container">
-        <h1 className="nav-logo">VirtuPrep</h1>
-        {/* Navigation items will be added here */}
+        <Link to="/" className="nav-logo">VirtuPrep</Link>
+        <div className="nav-links">
+          {navigationItems.map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`nav-link ${location.pathname === item.path ? 'active' : ''}`}
+            >
+              {item.name}
+            </Link>
+          ))}
+        </div>
       </div>
     </nav>
   );

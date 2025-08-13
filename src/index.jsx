@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 function App() {
   return (
     <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ color: '#667eea' }}>🎯 VirtuPrep - Soft Skills VR Trainer</h1>
+      <h1 style={{ color: '#667eea' }}>🎯 VirtuPrep - Soft Skills Trainer</h1>
       <p>Welcome to VirtuPrep! The application is loading successfully.</p>
       <div style={{ marginTop: '2rem' }}>
         <h2>🚀 Features Coming Soon:</h2>

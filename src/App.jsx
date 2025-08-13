@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage';
 import ScenarioSelect from './pages/ScenarioSelect';
 import Simulation from './pages/Simulation';
 import Results from './pages/Results';
+import InterviewPrep from './components/InterviewPrep/InterviewPrep';
 import './styles/globals.css';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/scenarios" element={<ScenarioSelect />} />
             <Route path="/simulation" element={<Simulation />} />
             <Route path="/results" element={<Results />} />
+            <Route path="/interview-prep/*" element={<InterviewPrep />} />
           </Routes>
         </main>
         <Footer />

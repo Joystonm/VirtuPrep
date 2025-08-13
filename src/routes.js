@@ -5,6 +5,7 @@ export const routes = {
   SCENARIOS: '/scenarios',
   SIMULATION: '/simulation',
   RESULTS: '/results',
+  INTERVIEW_PREP: '/interview-prep',
 };
 
 export const routeConfig = [
@@ -32,6 +33,12 @@ export const routeConfig = [
     component: 'Results',
     exact: true,
   },
+  {
+    path: routes.INTERVIEW_PREP,
+    name: 'Interview Prep',
+    component: 'InterviewPrep',
+    exact: false,
+  },
 ];
 
 export const navigationItems = [
@@ -40,8 +47,12 @@ export const navigationItems = [
     path: routes.HOME,
   },
   {
-    name: 'Practice',
+    name: 'VR Practice',
     path: routes.SCENARIOS,
+  },
+  {
+    name: 'Interview Prep',
+    path: routes.INTERVIEW_PREP,
   },
 ];
 
